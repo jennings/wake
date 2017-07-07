@@ -8,7 +8,12 @@ namespace Wake.Parser
     public static class Grammar
     {
         public static Parser<string> Identifier { get; } =
-            Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Token();
+            from leading in Parse.WhiteSpace.Many()
+            from token in Parse.AnyChar
+                          .Except(Parse.Char(':').Or(Parse.WhiteSpace))
+                          .Many().Text()
+            from trailing in Parse.WhiteSpace.Except(Parse.LineEnd).Optional()
+            select token;
 
         public static Parser<RecipeDeclaration> RecipeDeclaration { get; } =
             from name in Identifier

@@ -17,6 +17,14 @@ namespace Wake.Tests
         }
 
         [Fact]
+        public void Identifiers_can_contain_punctuation()
+        {
+            var input = "%.o";
+            var target = Grammar.Identifier.Parse(input);
+            Assert.Equal("%.o", target);
+        }
+
+        [Fact]
         public void Recipe_declaration_is_understood_with_no_dependencies()
         {
             var input = "build:\n";
