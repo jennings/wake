@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Wake.Parser
 {
-    public class TargetBody
+    public class RecipeBody
     {
         public IReadOnlyList<string> Lines { get; }
 
-        public TargetBody(IEnumerable<string> lines)
+        public RecipeBody(IEnumerable<string> lines)
         {
             Lines = lines.ToList().AsReadOnly();
         }

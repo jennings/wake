@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace Wake.Parser
 {
-    public class Target
+    public class Recipe
     {
-        public TargetDeclaration Declaration { get; }
-        public TargetBody Body { get; }
+        public RecipeDeclaration Declaration { get; }
+        public RecipeBody Body { get; }
 
-        public Target(TargetDeclaration declaration, TargetBody body)
+        public Recipe(RecipeDeclaration declaration, RecipeBody body)
         {
             Declaration = declaration;
             Body = body;
@@ -18,7 +18,7 @@ namespace Wake.Parser
 
         public override string ToString()
         {
-            return $"Target {Declaration.Name} ({Body.Lines.Count} lines)";
+            return $"Recipe {Declaration.Name} ({Body.Lines.Count} lines)";
         }
     }
 }
