@@ -18,7 +18,7 @@ namespace Wake.Parser
 
         public override string ToString()
         {
-            return $"Recipe {Declaration.Name} ({Body.Lines.Count} lines)";
+            return $"Recipe {Declaration.Target} ({Body.Lines.Count} lines)";
         }
     }
 }

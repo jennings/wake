@@ -7,13 +7,13 @@ namespace Wake.Parser
 {
     public class RecipeDeclaration
     {
-        public string Name { get; }
+        public string Target { get; }
 
         public IReadOnlyList<string> Dependencies { get; }
 
-        public RecipeDeclaration(string name, IEnumerable<string> dependencies)
+        public RecipeDeclaration(string target, IEnumerable<string> dependencies)
         {
-            Name = name;
+            Target = target;
             Dependencies = dependencies.ToList().AsReadOnly();
         }
 
@@ -21,11 +21,11 @@ namespace Wake.Parser
         {
             if (Dependencies.Count > 0)
             {
-                return $"{Name}: {string.Join(" ", Dependencies)}";
+                return $"{Target}: {string.Join(" ", Dependencies)}";
             }
             else
             {
-                return Name;
+                return Target;
             }
         }
     }

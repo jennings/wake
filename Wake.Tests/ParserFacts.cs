@@ -21,7 +21,7 @@ namespace Wake.Tests
         {
             var input = "build:\n";
             var decl = Grammar.RecipeDeclaration.Parse(input);
-            Assert.Equal("build", decl.Name);
+            Assert.Equal("build", decl.Target);
             Assert.Empty(decl.Dependencies);
         }
 
@@ -30,7 +30,7 @@ namespace Wake.Tests
         {
             var input = "build: foo\n";
             var decl = Grammar.RecipeDeclaration.Parse(input);
-            Assert.Equal("build", decl.Name);
+            Assert.Equal("build", decl.Target);
             Assert.Equal(decl.Dependencies, new []{ "foo" });
         }
 
@@ -39,7 +39,7 @@ namespace Wake.Tests
         {
             var input = "build: foo bar baz\n";
             var decl = Grammar.RecipeDeclaration.Parse(input);
-            Assert.Equal("build", decl.Name);
+            Assert.Equal("build", decl.Target);
             Assert.Equal(decl.Dependencies, new []{ "foo", "bar", "baz" });
         }
 
@@ -76,7 +76,7 @@ namespace Wake.Tests
         {
             var input = "build: foo\n";
             var target = Grammar.Recipe.Parse(input);
-            Assert.Equal("build", target.Declaration.Name);
+            Assert.Equal("build", target.Declaration.Target);
             Assert.Empty(target.Body.Lines);
         }
 
@@ -86,8 +86,8 @@ namespace Wake.Tests
             var input = "build:\ntest:";
             var targets = Grammar.Recipe.Many().Parse(input).ToList();
             Assert.Equal(2, targets.Count);
-            Assert.Equal("build", targets[0].Declaration.Name);
-            Assert.Equal("test", targets[1].Declaration.Name);
+            Assert.Equal("build", targets[0].Declaration.Target);
+            Assert.Equal("test", targets[1].Declaration.Target);
         }
 
         [Fact]
@@ -97,10 +97,10 @@ namespace Wake.Tests
             var targets = Grammar.Recipe.Many().Parse(input).ToList();
             Assert.Equal(2, targets.Count);
 
-            Assert.Equal("build", targets[0].Declaration.Name);
+            Assert.Equal("build", targets[0].Declaration.Target);
             Assert.Equal(targets[0].Body.Lines, new []{ "foo" });
 
-            Assert.Equal("test", targets[1].Declaration.Name);
+            Assert.Equal("test", targets[1].Declaration.Target);
             Assert.Empty(targets[1].Body.Lines);
         }
 
@@ -111,10 +111,10 @@ namespace Wake.Tests
             var targets = Grammar.Recipe.Many().Parse(input).ToList();
             Assert.Equal(2, targets.Count);
 
-            Assert.Equal("build", targets[0].Declaration.Name);
+            Assert.Equal("build", targets[0].Declaration.Target);
             Assert.Equal(targets[0].Body.Lines, new []{ "foo", "bar" });
 
-            Assert.Equal("test", targets[1].Declaration.Name);
+            Assert.Equal("test", targets[1].Declaration.Target);
             Assert.Equal(targets[1].Body.Lines, new []{ "baz" });
         }
     }
