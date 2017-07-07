@@ -7,11 +7,16 @@ namespace Wake.Parser
 {
     public class TargetBody
     {
-        public IReadOnlyList<string> Commands { get; }
+        public IReadOnlyList<string> Lines { get; }
 
-        public TargetBody(IEnumerable<string> commands)
+        public TargetBody(IEnumerable<string> lines)
         {
-            Commands = commands.ToList().AsReadOnly();
+            Lines = lines.ToList().AsReadOnly();
+        }
+
+        public override string ToString()
+        {
+            return string.Join("\n", Lines);
         }
     }
 }

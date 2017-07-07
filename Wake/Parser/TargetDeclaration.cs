@@ -16,5 +16,17 @@ namespace Wake.Parser
             Name = name;
             Dependencies = dependencies.ToList().AsReadOnly();
         }
+
+        public override string ToString()
+        {
+            if (Dependencies.Count > 0)
+            {
+                return $"{Name}: {string.Join(" ", Dependencies)}";
+            }
+            else
+            {
+                return Name;
+            }
+        }
     }
 }

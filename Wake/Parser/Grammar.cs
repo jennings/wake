@@ -12,8 +12,8 @@ namespace Wake.Parser
 
         public static Parser<TargetDeclaration> TargetDeclaration { get; } =
             from name in Identifier
-            from colon in Parse.Char(':').Token()
-            from dependencies in Identifier.Many()
+            from colon in Parse.Char(':')
+            from dependencies in Identifier.Until(Parse.LineTerminator)
             select new TargetDeclaration(name, dependencies);
 
         public static Parser<string> TargetBodyLine { get; } =
@@ -24,5 +24,10 @@ namespace Wake.Parser
         public static Parser<TargetBody> TargetBody { get; } =
             from lines in TargetBodyLine.Many()
             select new TargetBody(lines);
+
+        public static Parser<Target> Target { get; } =
+            from decl in TargetDeclaration
+            from body in TargetBody
+            select new Target(decl, body);
     }
 }
