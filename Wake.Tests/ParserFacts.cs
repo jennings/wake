@@ -8,19 +8,40 @@ namespace Wake.Tests
 {
     public class ParserFacts
     {
+        [Theory]
+        [InlineData("hello")]
+        [InlineData("HELLO_WORLD")]
+        [InlineData("$HELLO_WORLD")]
+        public void Valid_identifiers_are_recognized(string input)
+        {
+            var identifier = Grammar.Identifier.Parse(input);
+            Assert.Equal(input, identifier);
+        }
+
+        [Theory]
+        [InlineData("whitespace bad", "whitespace")]
+        [InlineData("colons_are_for:targets", "colons_are_for")]
+        [InlineData("comments#comments", "comments")]
+        [InlineData("no=equals", "no")]
+        public void Invalid_identifiers_are_rejected(string input, string expected)
+        {
+            var identifier = Grammar.Identifier.Parse(input);
+            Assert.Equal(expected, identifier);
+        }
+
         [Fact]
-        public void An_identifier_is_recognized()
+        public void A_target_is_recognized()
         {
             var input = "build";
-            var target = Grammar.Identifier.Parse(input);
+            var target = Grammar.Target.Parse(input);
             Assert.Equal("build", target);
         }
 
         [Fact]
-        public void Identifiers_can_contain_punctuation()
+        public void Targets_can_contain_punctuation()
         {
             var input = "%.o";
-            var target = Grammar.Identifier.Parse(input);
+            var target = Grammar.Target.Parse(input);
             Assert.Equal("%.o", target);
         }
 

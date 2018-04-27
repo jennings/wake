@@ -8,17 +8,23 @@ namespace Wake.Parser
     public static class Grammar
     {
         public static Parser<string> Identifier { get; } =
+            from identifier in Parse.CharExcept(new []{ ':', '#', '=' })
+                               .Except(Parse.WhiteSpace)
+                               .AtLeastOnce().Text().Token()
+            select identifier;
+
+        public static Parser<string> Target { get; } =
             from leading in Parse.WhiteSpace.Many()
             from token in Parse.AnyChar
                           .Except(Parse.Char(':').Or(Parse.WhiteSpace))
-                          .Many().Text()
+                          .AtLeastOnce().Text().Token()
             from trailing in Parse.WhiteSpace.Except(Parse.LineEnd).Optional()
             select token;
 
         public static Parser<RecipeDeclaration> RecipeDeclaration { get; } =
-            from name in Identifier
+            from name in Target
             from colon in Parse.Char(':')
-            from dependencies in Identifier.Until(Parse.LineTerminator)
+            from dependencies in Target.Until(Parse.LineTerminator)
             select new RecipeDeclaration(name, dependencies);
 
         public static Parser<string> RecipeBodyLine { get; } =
