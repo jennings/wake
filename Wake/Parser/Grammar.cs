@@ -40,5 +40,17 @@ namespace Wake.Parser
             from decl in RecipeDeclaration
             from body in RecipeBody
             select new Recipe(decl, body);
+
+        public static Parser<RecursivelyExpandedVariable> RecursivelyExpandedVariable { get; } =
+            from identifier in Identifier
+            from eq in Parse.String("=").Text().Token()
+            from expression in Parse.AnyChar.Until(Parse.LineTerminator).Text()
+            select new RecursivelyExpandedVariable(identifier, expression);
+
+        public static Parser<SimplyExpandedVariable> SimplyExpandedVariable { get; } =
+            from identifier in Identifier
+            from eq in Parse.String(":=").Text().Token()
+            from expression in Parse.AnyChar.Until(Parse.LineTerminator).Text()
+            select new SimplyExpandedVariable(identifier, expression);
     }
 }
