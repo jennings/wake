@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Wake.Parser
 {
-    public class RecipeDeclaration
+    public class TargetDeclaration
     {
         public string Target { get; }
 
         public IReadOnlyList<string> Dependencies { get; }
 
-        public RecipeDeclaration(string target, IEnumerable<string> dependencies)
+        public TargetDeclaration(string target, IEnumerable<string> dependencies)
         {
             Target = target;
             Dependencies = dependencies.ToList().AsReadOnly();

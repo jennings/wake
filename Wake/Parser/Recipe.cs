@@ -7,18 +7,16 @@ namespace Wake.Parser
 {
     public class Recipe
     {
-        public RecipeDeclaration Declaration { get; }
-        public RecipeBody Body { get; }
+        public IReadOnlyList<string> Lines { get; }
 
-        public Recipe(RecipeDeclaration declaration, RecipeBody body)
+        public Recipe(IEnumerable<string> lines)
         {
-            Declaration = declaration;
-            Body = body;
+            Lines = lines.ToList().AsReadOnly();
         }
 
         public override string ToString()
         {
-            return $"Recipe {Declaration.Target} ({Body.Lines.Count} lines)";
+            return string.Join("\n", Lines);
         }
     }
 }

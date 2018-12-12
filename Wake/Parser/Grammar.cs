@@ -21,25 +21,25 @@ namespace Wake.Parser
             from trailing in Parse.WhiteSpace.Except(Parse.LineEnd).Optional()
             select token;
 
-        public static Parser<RecipeDeclaration> RecipeDeclaration { get; } =
+        public static Parser<TargetDeclaration> TargetDeclaration { get; } =
             from name in Target
             from colon in Parse.Char(':')
             from dependencies in Target.Until(Parse.LineTerminator)
-            select new RecipeDeclaration(name, dependencies);
+            select new TargetDeclaration(name, dependencies);
 
-        public static Parser<string> RecipeBodyLine { get; } =
+        public static Parser<string> RecipeLine { get; } =
             from tab in Parse.Char('\t')
             from line in Parse.AnyChar.Until(Parse.LineTerminator).Text()
             select line;
 
-        public static Parser<RecipeBody> RecipeBody { get; } =
-            from lines in RecipeBodyLine.Many()
-            select new RecipeBody(lines);
-
         public static Parser<Recipe> Recipe { get; } =
-            from decl in RecipeDeclaration
-            from body in RecipeBody
-            select new Recipe(decl, body);
+            from lines in RecipeLine.Many()
+            select new Recipe(lines);
+
+        public static Parser<Rule> Rule { get; } =
+            from decl in TargetDeclaration
+            from body in Recipe
+            select new Rule(decl, body);
 
         public static Parser<RecursivelyExpandedVariable> RecursivelyExpandedVariable { get; } =
             from identifier in Identifier
